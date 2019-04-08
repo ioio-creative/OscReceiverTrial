@@ -14,8 +14,8 @@
 using namespace std;
 
 
-// listen on port 12345
-#define PORT 12345
+// listen on port
+#define PORT 9001
 #define NUM_MSG_STRINGS 20
 
 
@@ -46,10 +46,7 @@ class ofApp : public ofBaseApp{
 		float			timers[NUM_MSG_STRINGS];
 
 		int				mouseX, mouseY;
-		char	mouseButtonState[128];
-
-
-		ofxOscSender sender;
+		char	mouseButtonState[128];		
 		
 };
 

@@ -12,10 +12,6 @@ void ofApp::setup(){
 	strcpy(mouseButtonState, "");
 
 	ofBackground(30, 30, 130);
-
-
-	// sender
-	sender.setup("10.0.1.40", 12345);
 }
 
 //--------------------------------------------------------------
@@ -43,7 +39,11 @@ void ofApp::update(){
 			mouseX = m.getArgAsInt32(0);
 			mouseY = m.getArgAsInt32(1);
 
+
 			// send message back
+			ofxOscSender sender;
+			sender.setup("127.0.0.1", 12345);
+
 			ofxOscMessage m;
 			m.setAddress("/test");
 			m.addStringArg("hello position");
@@ -57,9 +57,30 @@ void ofApp::update(){
 
 			
 			// send message back
+			ofxOscSender sender;
+			sender.setup("127.0.0.1", 12345);
+
 			ofxOscMessage m;
 			m.setAddress("/test");
-			m.addStringArg("hello button");
+			m.addStringArg("hello position");
+			sender.sendMessage(m);
+		}
+		else if (receivedMessageAddress.compare("/request/play") == 0)
+		{
+			string message = m.getArgAsString(0);
+
+			string remoteHost = m.getRemoteHost();
+			string remoteIp = m.getRemoteIp();
+			int remotePort = m.getRemotePort();
+
+			
+			// send message back
+			ofxOscSender sender;
+			sender.setup(remoteHost, remotePort);
+
+			ofxOscMessage m;
+			m.setAddress("/request/play");
+			m.addStringArg(message + " ack");
 			sender.sendMessage(m);
 		}
 		else
