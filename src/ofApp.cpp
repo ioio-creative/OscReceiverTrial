@@ -68,6 +68,7 @@ void ofApp::update(){
 		else if (receivedMessageAddress.compare("/request/play") == 0)
 		{
 			string message = m.getArgAsString(0);
+			cout << "incoming message: " + message << endl;
 
 			string remoteHost = m.getRemoteHost();
 			string remoteIp = m.getRemoteIp();
@@ -80,7 +81,7 @@ void ofApp::update(){
 
 			ofxOscMessage m;
 			m.setAddress("/request/play");
-			m.addStringArg(message + " ack");
+			m.addStringArg(message + "_ack");
 			sender.sendMessage(m);
 		}
 		else
