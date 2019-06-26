@@ -46,7 +46,10 @@ class ofApp : public ofBaseApp{
 		float			timers[NUM_MSG_STRINGS];
 
 		int				mouseX, mouseY;
-		char	mouseButtonState[128];		
+		char	mouseButtonState[128];
+
+
+		void testSendOscMsgBack(ofxOscMessage receivedMsg, string msgAddr);
 		
 };
 

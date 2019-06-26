@@ -65,24 +65,21 @@ void ofApp::update(){
 			m.addStringArg("hello position");
 			sender.sendMessage(m);
 		}
-		else if (receivedMessageAddress.compare("/request/play") == 0)
+		else if (receivedMessageAddress.compare("/request/play1") == 0)
 		{
-			string message = m.getArgAsString(0);
-			cout << "incoming message: " + message << endl;
-
-			string remoteHost = m.getRemoteHost();
-			string remoteIp = m.getRemoteIp();
-			int remotePort = m.getRemotePort();
-
-			
-			// send message back
-			ofxOscSender sender;
-			sender.setup(remoteHost, remotePort);
-
-			ofxOscMessage m;
-			m.setAddress("/request/play");
-			m.addStringArg(message + "_ack");
-			sender.sendMessage(m);
+			testSendOscMsgBack(m, "/ack/play1");
+		}		
+		else if (receivedMessageAddress.compare("/request/play2") == 0)
+		{
+			testSendOscMsgBack(m, "/ack/play2");
+		}
+		else if (receivedMessageAddress.compare("/request/play4") == 0)
+		{
+			testSendOscMsgBack(m, "/ack/play4");
+		}
+		else if (receivedMessageAddress.compare("/request/play5") == 0)
+		{
+			testSendOscMsgBack(m, "/ack/play5");
 		}
 		else
 		{
@@ -183,4 +180,28 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+
+
+
+
+void ofApp::testSendOscMsgBack(ofxOscMessage receivedMsg, string outGoingMsgAddr) {
+	string message = receivedMsg.getArgAsString(0);
+	cout << "incoming message: " + message << endl;
+	cout << "outgoing message address: " + outGoingMsgAddr << endl;
+
+	string remoteHost = receivedMsg.getRemoteHost();
+	string remoteIp = receivedMsg.getRemoteIp();
+	int remotePort = receivedMsg.getRemotePort();
+
+
+	// send message back
+	ofxOscSender sender;
+	sender.setup(remoteHost, remotePort);
+
+	ofxOscMessage m;
+	m.setAddress(outGoingMsgAddr);
+	m.addStringArg(message + "_ack");
+	sender.sendMessage(m);
 }
