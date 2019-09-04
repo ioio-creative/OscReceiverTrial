@@ -64,7 +64,7 @@ void ofApp::update(){
 			m.setAddress("/test");
 			m.addStringArg("hello position");
 			sender.sendMessage(m);
-		}
+		}	
 		else if (receivedMessageAddress.compare("/request/play1") == 0)
 		{
 			testSendOscMsgBack(m, "/ack/play1");
@@ -80,6 +80,14 @@ void ofApp::update(){
 		else if (receivedMessageAddress.compare("/request/play5") == 0)
 		{
 			testSendOscMsgBack(m, "/ack/play5");
+		}
+		else if (receivedMessageAddress.compare("/request/play5") == 0)
+		{
+			testSendOscMsgBack(m, "/ack/play5");
+		}
+		else if (receivedMessageAddress.compare("/request/play") == 0)
+		{
+			testSendOscMsgBack(m, "/ack/play");
 		}
 		else
 		{
@@ -104,6 +112,25 @@ void ofApp::update(){
 			}
 
 			cout << msg_string << endl;
+
+
+			// send message back
+			string remoteHost = m.getRemoteHost();
+			string remoteIp = m.getRemoteIp();
+			int remotePort = m.getRemotePort();
+
+			cout << "remote host: " + remoteHost << endl;
+			cout << "remote ip: " + remoteIp << endl;
+			cout << "remote port: " + ofToString(remotePort) << endl;
+
+			ofxOscSender sender;
+			sender.setup(remoteHost, remotePort);
+
+			ofxOscMessage outMsg;
+			string outGoingMsgAddr = "/ack";
+			outMsg.setAddress(outGoingMsgAddr);
+			outMsg.addStringArg("ack");
+			sender.sendMessage(outMsg);
 		}
 
 	}
@@ -194,6 +221,10 @@ void ofApp::testSendOscMsgBack(ofxOscMessage receivedMsg, string outGoingMsgAddr
 	string remoteHost = receivedMsg.getRemoteHost();
 	string remoteIp = receivedMsg.getRemoteIp();
 	int remotePort = receivedMsg.getRemotePort();
+
+	cout << "remote host: " + remoteHost << endl;
+	cout << "remote ip: " + remoteIp << endl;
+	cout << "remote port: " + ofToString(remotePort) << endl;
 
 
 	// send message back
